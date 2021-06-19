@@ -1,0 +1,51 @@
+public class PalindromeInteger {
+
+    private boolean checkPalindrome(int a) {
+        // If -ve its not a palindrome
+        if(a < 0) {
+            return false;
+        }
+
+        if(a<10) {
+            return true;
+        }
+
+        // WE need to find number of digits . so that we can loop and iterate from left and right side
+        // Right side we can get using % operator.
+        // FOr left side digit : Once we know # digits , we can divide by multiple of 10 ( for 3 digits , divide by 100, for 4, divide by 1000)
+
+        // Bit first to get # digits, we need to use log to base 10,
+        // Log tells what power of 10 will get us the number
+
+        int digitsLength = (int)Math.floor(Math.log10(a)); // Indexing from 0;
+        // Now we need mask to get left digit
+
+        int mask = (int)Math.pow(10, digitsLength);
+
+        int left = 0;
+        int right = digitsLength;
+
+        while (left<right) {
+            int leftDigit = a/mask;
+            int rightDigit =a%10;
+            if(leftDigit != rightDigit) {
+                return false;
+            }
+            a = a%mask;
+            a = a/10;
+            mask = mask/100;
+            left++;
+            right--;
+        }
+
+        return true;
+    }
+
+public static void main(String[] args) {
+    int a = 3883;
+    PalindromeInteger obj = new PalindromeInteger();
+     boolean res =    obj.checkPalindrome(a);
+     System.out.println(res);
+}
+
+}
