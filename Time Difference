@@ -1,0 +1,45 @@
+import java.util.List;
+
+public class TimeDifference {
+
+    public int timeDifference(List<String> times) {
+        // Time is given military HH:MM format
+        // Max time in minutes is 0 to 24*60;
+        // WE can store the time in in one such array , which then will be automatically sorted
+
+        // We also need a  helper method to convert time in minutes
+
+        // Initialize array to store time
+        boolean[] timesInMinutes = new boolean[24*60];
+        for(String time : times) {
+            // IF same time found again, return 0 as it is lowest possible
+            if(timesInMinutes[getTimeInMinutes(time)]) {
+                return 0;
+            }
+            timesInMinutes[getTimeInMinutes(time)] = true;
+        }
+
+        int minTime = 24*60+1;
+        int prevTime = -1;
+        int firstTime = -1;
+        for(int currTime=0; currTime<24*60; currTime++) {
+            if(timesInMinutes[currTime]) {
+                if(prevTime !=-1) {
+                    minTime = Math.min(currTime-prevTime, minTime);
+                } else{
+                    firstTime = currTime;
+                }
+                prevTime = currTime;
+            }
+        }
+
+        minTime = Math.min(minTime, (firstTime+(24*60))- prevTime);
+        return minTime;
+    }
+
+    private int getTimeInMinutes(String time) {
+        String[] timeSplit = time.split(":");
+        int timeInMinutes = Integer.parseInt(timeSplit[0])*60 + Integer.parseInt(timeSplit[1]);
+        return timeInMinutes;
+    }
+}
