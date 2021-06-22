@@ -1,0 +1,88 @@
+import java.util.HashMap;
+import java.util.Map;
+
+public class ChangeBase {
+
+    private static Map<Integer,Character> numTODigitMap = new HashMap<>() {
+        {
+            put(0, '0');
+            put(1, '1');
+            put(2, '2');
+            put(3, '3');
+            put(4, '4');
+            put(5, '5');
+            put(6, '6');
+            put(7, '7');
+            put(8, '8');
+            put(9, '9');
+            put(10, 'A');
+            put(11, 'B');
+            put(12, 'C');
+            put(13, 'D');
+            put(14, 'E');
+            put(16, 'F');
+        }
+    };
+
+    private static Map<Character,Integer> digitToNumMap = new HashMap<>() {
+        {
+            put('0', 0);
+            put('1', 1);
+            put('2', 2);
+            put('3', 3);
+            put('4', 4);
+            put('5', 5);
+            put('6', 6);
+            put('7', 7);
+            put('8', 8);
+            put('9', 9);
+            put('A', 10);
+            put('B', 11);
+            put('C', 12);
+            put('D', 13);
+            put('E', 14);
+            put('F', 15);
+        }
+    };
+
+
+
+    public String changeBase(String numAsString, int b1, int b2) {
+        int bas10Num = convertToBase10(numAsString, b1);
+        return convertToReqBase(bas10Num, b2);
+    }
+
+
+    private String convertToReqBase(int num, int base) {
+        StringBuilder sb = new StringBuilder();
+        helper(sb, num, base);
+        return sb.reverse().toString();
+    }
+
+    private void helper(StringBuilder sb, int num, int base) {
+        if(num ==0) {
+            return;
+        }
+
+        int weight = num%base;
+        num = num/base;
+        sb.append(numTODigitMap.get(weight));
+        helper(sb, num, base);
+    }
+
+    private int convertToBase10(String num, int base) {
+        char[] charArray = num.toCharArray();
+        int length = charArray.length;
+        int sum=0;
+        for(int i= 0; i< length; i++) {
+            sum += Math.pow(base,i)* (digitToNumMap.get(charArray[length-1-i]));
+        }
+        return sum;
+    }
+
+    public static void main(String[] args) {
+        ChangeBase obj = new ChangeBase();
+        String op = obj.changeBase("AAA", 16,10);
+        System.out.println(op);
+    }
+}
