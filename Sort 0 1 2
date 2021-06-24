@@ -1,0 +1,38 @@
+public class Sort012 {
+    public int[] sortArray_0_1_2(int[] nums) {
+            int zeroPosition = 0;
+            int twoPosition = nums.length-1;
+            int i=0;
+            while (i<=twoPosition){
+                if(nums[i] == 0) {
+                    swap(nums, i, zeroPosition);
+                    zeroPosition++;
+                    i++;
+                }
+
+                else if(nums[i] == 2) {
+                    swap(nums,i, twoPosition);
+                    twoPosition --;
+                }
+                else {
+                 i++;
+                }
+            }
+
+            return nums;
+    }
+
+    private void swap(int[] num, int index1, int index2) {
+        int temp = num[index1];
+        num[index1] = num[index2];
+        num[index2] = temp;
+    }
+
+
+    public static void main(String[] args) {
+        int [] nums = {1,1,0,2,1,0,0,0,2,2,1,1,2};
+        Sort012 obj = new Sort012();
+       obj.sortArray_0_1_2(nums);
+       StaticUtil.printArray(nums);
+    }
+}
